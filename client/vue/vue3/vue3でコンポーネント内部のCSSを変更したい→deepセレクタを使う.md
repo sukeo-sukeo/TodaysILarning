@@ -8,3 +8,10 @@ vue3
 ```css
 .content:deep(h1)
 ```
+こんな感じでもいけます。
+```css
+:deep(.sns_icons) {
+  display: flex;
+  justify-content: center;
+}
+```
