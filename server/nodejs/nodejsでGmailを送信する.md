@@ -1,3 +1,14 @@
+## gmailで送るなら
+> 2022-02-09 追記
+```
+npm i gmail-send
+```
+これがsmtp設定の記述が省けるので簡単でした。
+添付ファイルも問題なく送信。
+
+Excelファイルを添付するとnodemailerではうまく送れませんでしたがgmail-sendで問題なく送信できました。
+
+
 ## インストール
 ```
 npm i nodemailer

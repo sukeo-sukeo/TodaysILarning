@@ -16,3 +16,8 @@
 |script内| hoge.valueでアクセス|
 |template内| hoge.valueでアクセス|
 |ポイント| 追加したプロパティもリアクティブに変更される|
+
+
+# shallowRef
+コンポーネントオブジェクトのときに使う
+- <component> タグで動的に切り替えるときに使用
