@@ -1,5 +1,12 @@
 # butter cms apiで返却されるjsonの見本
 ```json
+//result.meta
+count: 1
+next_page: null
+previous_page: null
+```
+```json
+//result.data
 {
   "status": "published",
   "created": "2022-02-06T11:58:52.122263Z",
