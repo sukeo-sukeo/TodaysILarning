@@ -37,6 +37,31 @@ if ($records) {
 var_dump($records); // object
 ```
 
+### stmt, prepare, bind_paramを使う
+ユーザーからの値を元にDBから取り出す場合は挿入時同様にbind_paramを使う。
+queryにパラメータを埋め込みたいとき`?`はstmt,prepareを使う
+```php
+$stmt = $db->prepare('select * from memos where id=?');
+
+if (!$stmt) {
+  die($db->error);
+}
+
+$id = 6;
+$stmt->bind_param('i', $id);
+$stmt->execute();  
+
+// dbから渡ってくる値の入れ物(変数)を指定
+$stmt->bind_result($id, $memo, $created);
+$stmt->fetch();
+```
+表示
+```html
+<div>
+  <?php echo htmlspecialchars($memo); ?>
+</div>
+```
+
 ## dataを挿入する
 簡単なメモ帳作成を例にサンプルを掲載。
 resultにはBool値が入る
@@ -52,12 +77,14 @@ if ($result) {
 var_dump($result);
 ```
 
-### stmt,prepareを使う
+### stmt, prepare, bind_paramを使う
 ユーザーから受け取った値を安全に保存
 
 **bind_paramについて**
 ?の数とbind_param内の変数の数は等しくなる。
 bind_paramの第一引数はs=string、i=intで`si`-とすると変数の場所と対応したstringとintと型を設定できる。
+bind_paramに直接値を指定することはできない。→変数を指定する
+**bind_paramでprepareのクエリを完成させる。**
 
 この形で処理する
 ```php
@@ -121,6 +148,7 @@ if ($result) {
 
 ## dbからのデータ取得サンプル
 一覧画面
+### stmt, prepareなし(あまり使わないかも)
 ```html
 <?php
 $db = new mysqli('localhost:8889', 'root', 'root', 'testdb');
@@ -144,6 +172,44 @@ if (!$memos) {
     <div>
       <h2><a href="#"><?php echo htmlspecialchars($memo['memo']); ?></a></h2>
       <time><?php echo htmlspecialchars($memo['created']); ?></time>
+    </div>
+    <hr>
+  <?php endwhile; ?>
+
+</body>
+</html>
+```
+### stmt, prepare使用
+実用的、上と見比べてみる
+```html
+<?php
+require('dbconnect.php');
+
+$stmt = $db->prepare('select * from memos order by id desc limit ?, 5');
+if (!$stmt) {
+  die($db->error);
+}
+$page = 0;
+$stmt->bind_param('i', $page);
+$stmt->execute();
+?>
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>一覧画面</title>
+</head>
+<body>
+  <h1>メモ帳</h1>
+  <p>→ <a href="input.html">新しいメモ</a></p>
+
+  <?php $stmt->bind_result($id, $memo, $created); ?>
+  <?php while ($stmt->fetch()): ?>
+    <div>
+      <h2><a href="memo.php?id=<?php echo $id; ?>"><?php echo htmlspecialchars(mb_substr($memo, 0, 50)); ?></a></h2>
+      <time><?php echo htmlspecialchars($created); ?></time>
     </div>
     <hr>
   <?php endwhile; ?>
