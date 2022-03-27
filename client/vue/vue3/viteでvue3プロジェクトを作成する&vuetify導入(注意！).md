@@ -11,3 +11,11 @@ yarn
 ```
 yarn dev
 ```
+
+## vuetify導入
+一部上書きされるファイルがあるので注意！App.vueとか
+事前に退避水晶
+もしくは最初に導入を決めてからはじめる
+```bash
+vue add vuetify
+```

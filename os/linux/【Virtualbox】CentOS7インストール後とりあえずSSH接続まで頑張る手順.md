@@ -14,3 +14,5 @@
 - ip4に上で作成したipアドレスを入力(**末尾は1以外の0~255**、`/24`まで入力)
 - ip6をignore オートコネクトにチェック
 
+## ubuntuの場合
+- `sudo apt install net-tools`でnmtuiのインストールが必要

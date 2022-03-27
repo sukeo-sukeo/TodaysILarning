@@ -6,6 +6,10 @@ yum localinstall http://dev.mysql.com/get/mysql80-community-release-el7-4.noarch
 ```bash
  yum install mysql-server
 ```
+もし公開鍵がありませんなどでインストールできない場合は下記コマンド実行ののち再度インストール(インストール不要かも)
+```bash
+sudo rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
+```
 ここから`mysql -V`とかでバージョン確認可能
 # デーモンの起動
 ```bash
