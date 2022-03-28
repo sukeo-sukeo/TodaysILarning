@@ -29,12 +29,12 @@ default-authentication-plugin = mysql_native_password
 vim /var/log/mysqld.log 
 
 # 下記の記述が上の方にある
-2021-11-27T04:07:12.118162Z 6 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: 1tr(TA%hBw13
+2021-11-27T04:07:12.118162Z 6 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: 7pqcdFsYat,R
 ```
 ログインできるか確認
 ```bash
 mysql -u root -p
-Enter password: 1tr(TA%hBw13
+Enter password: 7pqcdFsYat,R
 ```
 `show databases;`しようとするとエラーに
 ```bash
@@ -43,7 +43,18 @@ ERROR 1820 (HY000): You must reset your password using ALTER USER statement befo
 ```
 **rootのパスワードを変更する必要があります**的なことを言われております。
 
-てなことでパスワードの変更
+```bash
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY '変更したいPASSWD'
+```
+これで変更OK。
+初期では小文字、大文字、記号が含まれていないとあかんよって出る。
+ver5.7からポリシーが厳しくなっているようです。(変更可能)
+- ８文字以上
+- 大文字含む
+- 特殊記号含む
+
+## 以前は下記やりかたでやったこともある
+こちらでもできるのかもね
 ```bash
 mysql_secure_installation --use-default
 ```
@@ -51,11 +62,6 @@ mysql_secure_installation --use-default
 - 現在のパスワード（logで確認した初期値）
 - 新しいパスワード
 - 再度新しいパスワード
-
-ver5.7からポリシーが厳しくなっているようです。(変更可能)
-- ８文字以上
-- 大文字含む
-- 特殊記号含む
 
 この他にmysql内での`ALTER USER`コマンドでも変更可能のようです。使う際はググって使います。
 

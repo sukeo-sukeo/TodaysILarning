@@ -266,6 +266,15 @@ location ~ \.php$ {
   }
 }
 ```
+## mysqlのインストールと接続
+**別記事参照**
+
+## いよいよ開発
+### ファイルアップロードの仕組みをつくる
+```bash
+# バーチャルホストの模擬本番環境へのアップロード
+alias mycmspush='rsync -a --delete /Applications/MAMP/htdocs/mycms2/ sukeo@192.168.58.10:/usr/share/nginx/html/setting/'
+```
 
 ## プチ困ったこと
 ### スクロールできない
