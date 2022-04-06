@@ -45,3 +45,10 @@ function db_insert_many($table_name, $items, $db) {
 以上です。
 疑問符の生成など冗長な部分もありますが
 必要なデータがStringかArrayかを意識しながら作成すると良いと思います。
+
+## 追記
+直前にinsertしたidを取得
+> stmtクラスは「insert_id」というプロパティを持っていて、ここにはINSERT文で最後に登録されたデータのIDが入ります。
+```php
+$id = $stmt->insert_id;
+```
