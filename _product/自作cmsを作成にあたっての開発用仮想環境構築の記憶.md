@@ -272,9 +272,50 @@ location ~ \.php$ {
 ## いよいよ開発
 ### プログラムファイルアップロードの仕組みをつくる
 ```bash
-# バーチャルホストの模擬本番環境へのアップロード
+# バーチャルボックスの模擬本番環境へのアップロード
 alias mycmspush='rsync -a --delete /Applications/MAMP/htdocs/mycms2/ sukeo@192.168.58.10:/usr/share/nginx/html/setting/'
 ``` 
+
+### ローカルで頑張って開発する
+**そのうち掲載**
+
+### テーブル構造のエクスポートとインポート
+phpMyAdminでデータベースの構造だけエクスポートできる。
+sql形式でファイルを作成しバーチャルボックスへ送る。
+バーチャルボックス内で下記コマンドでインポート。
+```bash
+mysql -u root -p dbname < pathToSql.sql
+```
+
+### ページはひらけたがなんか変！
+そうですsessionが動いていないっぽいのです。
+原因はsessionの設定ファイル群の権限問題。
+この辺はnginxならではのようです。apacheだとおそらく最初からsessionが動く。
+```bash
+ll /var/lib/php/session apache apache
+```
+権限を変更する。
+```bash
+chown nginx /var/lib/php/session
+```
+
+### 動かない関数がある！
+array_key_firstで止まる！
+ローカル php -v 7.4
+テスト php -v 7.2
+array_key_firstは7.3から、ちーん
+```bash
+yum update php
+```
+してみる。
+かわらん。
+こちらのサイト様のやり方に沿って再度実行
+https://obenkyolab.com/?p=1987
+
+phpのバージョンを揃えることで解決！
+
+### 画像アップロードができない！
+保存するディレクトリに書き込み権限を付与するのだ！
 
 ## プチ困ったこと
 ### スクロールできない
