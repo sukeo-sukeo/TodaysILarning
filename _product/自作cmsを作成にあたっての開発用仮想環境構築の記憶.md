@@ -317,6 +317,23 @@ phpのバージョンを揃えることで解決！
 ### 画像アップロードができない！
 保存するディレクトリに書き込み権限を付与するのだ！
 
+### databaseにPHPから接続できない！
+mysqlのver8から認証方法が変更になっているそう。
+従来(これに戻す作業をする)
+```bash
+mysql_native_password
+```
+var8.0から
+```bash
+caching_sha2_password
+```
+```bash
+mysql> alter user 'username'@'localhost' identified with mysql_native_password by 'ここにパスワード';
+```
+下記サイト様のやりかたで認証方法を変更し解決
+https://motomotosukiyaki.com/mysql-from-php-server-requested-authentication-method-unknown-to-the-client
+
+
 ## プチ困ったこと
 ### スクロールできない
 Shift + fn + 矢印
