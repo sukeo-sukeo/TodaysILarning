@@ -271,10 +271,7 @@ location ~ \.php$ {
 
 ## いよいよ開発
 ### プログラムファイルアップロードの仕組みをつくる
-```bash
-# バーチャルボックスの模擬本番環境へのアップロード
-alias mycmspush='rsync -a --delete /Applications/MAMP/htdocs/mycms2/ sukeo@192.168.58.10:/usr/share/nginx/html/setting/'
-``` 
+aliasを設定してコマンド一発でアップロードできるようにする 
 
 ### ローカルで頑張って開発する
 **そのうち掲載**
@@ -315,7 +312,8 @@ https://obenkyolab.com/?p=1987
 phpのバージョンを揃えることで解決！
 
 ### 画像アップロードができない！
-保存するディレクトリに書き込み権限を付与するのだ！
+保存するディレクトリに書き込み権限を付与するのだ！`chmod`
+あとユーザーもnginxに変更するのだ！`chown`
 
 ### databaseにPHPから接続できない！
 mysqlのver8から認証方法が変更になっているそう。
@@ -332,6 +330,12 @@ mysql> alter user 'username'@'localhost' identified with mysql_native_password b
 ```
 下記サイト様のやりかたで認証方法を変更し解決
 https://motomotosukiyaki.com/mysql-from-php-server-requested-authentication-method-unknown-to-the-client
+
+### cssやsvgが表示されない
+色々調べこれはnginxの設定の問題と認識。
+書き方がさまざまあって良くわからなかったのですが
+nginxの.confファイルに`location``対応するURLパス``aliasで対応するディレクトリ`
+を指定することでそのディレクトリ内のファイルを読み込ませることができました。
 
 
 ## プチ困ったこと
