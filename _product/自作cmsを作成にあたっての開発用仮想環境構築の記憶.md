@@ -337,9 +337,45 @@ https://motomotosukiyaki.com/mysql-from-php-server-requested-authentication-meth
 nginxの.confファイルに`location``対応するURLパス``aliasで対応するディレクトリ`
 を指定することでそのディレクトリ内のファイルを読み込ませることができました。
 
+## サーバーへアップロード
+いよいよアップロード！
+URLを本番用に書き換える。
+nginxのlocationも設定する。
+
+## WEBサイトは表示されるが...
+肝心のブログデータがとれてこない！
+expressでつくったapiサーバーも起動しており、各URLへのブラウザからの疎通も確認したので、nginxの設定もOKだと思われる。
+いざコンソールを確認してみると、、、
+なんかSQLの部分でエラーがでている、
+group_byがおかしぞい！と出ている
+ローカルでは動いてたのに、、、
+
+いろいろ調べるとmysqlの設定の違いでは、となってきました。そもそもローカルがver5.7、本番が8.7ってのがあかん。CMSアップロード時も少しぶつかりましたが、やっぱりバージョン違うまま開発ってのはよくないって、実際開発してみてよく分かりましたよ。
+
+### 本番サーバー
+```bash
+@@global.sql_mode
+
+ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION 
+```
+### ローカルサーバー
+```bash
+@@global.sql_mode
+
+NO_ENGINE_SUBSTITUTION 
+```
+
+なので、`ONLY_FULL_GROUP_BY`の設定をオフにするとうまく行きました。ただこれは非推奨です。
+クエリの組み立て方がよくないので、本来ならクエリを修正すべきところです。
+
+下記コマンドで設定をローカルに合わせる。
+```bash
+SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION';
+```
 
 ## プチ困ったこと
 ### スクロールできない
 Shift + fn + 矢印
 ## コピペできない
-## 
+
+...随時更新!

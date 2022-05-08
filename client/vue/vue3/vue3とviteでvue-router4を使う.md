@@ -68,3 +68,20 @@ const route = useRoute();
 const post_id = route.params.pid
 const post_blog = route.params.blog
 ```
+
+## その他扱い方
+### 意図的に画面遷移させたいとき
+- useRouterを読み込んで使う
+- router.push
+  
+### URLや値をとりたいとき
+- useRouteを読み込んで使う
+- route.query.[変数名]でurlの`?`部分がとれる
+```js
+import { useRoute, useRouter } from "vue-router";
+
+const route = useRoute();
+const router = useRouter();
+
+const blogId = route.query.id;router.push("/")
+```
