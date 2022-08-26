@@ -1,6 +1,11 @@
 下記コマンドで一撃です
+npm
 ```bash
 npm init vite@latest [プロジェクト名] --template vue
+```
+yarn
+```bash
+yarn create vite [プロジェクト名] --template vue
 ```
 作成したプロジェクト名フォルダに移動し
 `npm init`もしくは`yarn`
